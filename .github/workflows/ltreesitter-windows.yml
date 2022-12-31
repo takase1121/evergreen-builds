@@ -1,0 +1,28 @@
+name: Build
+
+on:
+  push
+
+jobs:
+  build:
+    name: ltreesitter on Windows
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          install: >-
+            base-devel
+            git
+            mingw-w64-x86_64-tree-sitter
+            mingw-w64-x86_64-lua
+            mingw-w64-x86_64-gcc
+      - name: Checkout sources
+        uses: actions/checkout@v3
+        with:
+          repository: 'euclidianAce/ltreesitter'
+      - name: 'Build'
+        run: 'gcc -fPIC -I./include -shared csrc/* -o ltreesitter.dll -ltree-sitter -llua5.4 -llua -llua-5.4 -ldl'
