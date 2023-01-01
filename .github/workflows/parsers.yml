@@ -12,7 +12,7 @@ jobs:
       matrix:
         parser:
           - tree-sitter/tree-sitter-go
-          - tree-sitter/tree-sitter-lua
+          - MunifTanjim/tree-sitter-lua
     defaults:
       run:
         shell: msys2 {0}
