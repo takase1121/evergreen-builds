@@ -31,3 +31,13 @@ jobs:
           repository: ${{ matrix.parser }}
       - name: 'Build'
         run: 'gcc -o parser.dll -shared src/*.c -Os -I./src -fPIC'
+      - name: Parser Name
+        env:
+          PARSER: ${{ matrix.parser }}
+        id: split
+        run: echo "::set-output name=fragment::${PARSER##*/}"
+      - uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.parser }}-windows-x86_64
+          path: |
+            parser.dll
