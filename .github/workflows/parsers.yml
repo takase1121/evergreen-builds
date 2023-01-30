@@ -11,8 +11,13 @@ jobs:
     strategy:
       matrix:
         parser:
+          - tree-sitter/tree-sitter-c
+          - tree-sitter/tree-sitter-cpp
+          - the-mikedavis/tree-sitter-diff
           - tree-sitter/tree-sitter-go
+          - camdencheek/tree-sitter-go-mod
           - MunifTanjim/tree-sitter-lua
+          - tree-sitter/tree-sitter-rust
     defaults:
       run:
         shell: msys2 {0}
