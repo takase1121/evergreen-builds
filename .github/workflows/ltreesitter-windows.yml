@@ -36,13 +36,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install Dependencies
-        run: sudo apt install gcc liblua5.4-dev libtree-sitter0 libtree-sitter-dev
+        run: sudo apt install gcc liblua5.4 liblua5.4-dev libtree-sitter0 libtree-sitter-dev
       - name: Checkout sources
         uses: actions/checkout@v3
         with:
           repository: 'euclidianAce/ltreesitter'
       - name: 'Build'
-        run: gcc -shared -o ltreesitter.so -O2 -fPIC -I./include csrc/*.c -l:liblua.a -l:libtree-sitter.a -lm
+        run: gcc -shared -o ltreesitter.so -O2 -fPIC -I./include csrc/*.c -llua5.4.a -l:libtree-sitter.a -lm
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
