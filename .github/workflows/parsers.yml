@@ -12,6 +12,7 @@ jobs:
       matrix:
         parser:
           - tree-sitter/tree-sitter-c
+          - tree-sitter/tree-sitter-cpp
           - the-mikedavis/tree-sitter-diff
           - tree-sitter/tree-sitter-go
           - camdencheek/tree-sitter-go-mod
