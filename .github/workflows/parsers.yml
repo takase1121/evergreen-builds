@@ -23,9 +23,7 @@ jobs:
     steps:
       - uses: msys2/setup-msys2@v2
         with:
-          update: true
           install: >-
-            base-devel
             git
             mingw-w64-x86_64-tree-sitter
             mingw-w64-x86_64-gcc
