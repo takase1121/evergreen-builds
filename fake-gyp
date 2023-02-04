@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# This is a script to read binding.gyp and generate Makefiles.
+# This is a script to read binding.gyp and generate a Makefile.
 # It uses yq to read them (because apparently binding.gyp is not JSON)
+# To use this script, run it with a list of tree-sitter parsers.
+# Example: ./fake-gyp tree-sitter-cpp tree-sitter-go > Makefile
 
 # temporarily unset -e because read will terminate with non-zero status
 set +e
