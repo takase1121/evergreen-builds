@@ -1,4 +1,4 @@
-name: Build
+name: ltreesitter
 
 on:
   push
@@ -29,7 +29,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ltreesitter-windows
+          name: ltreesitter.dll
           path: ltreesitter.dll
   ltreesitter-linux:
     name: ltreesitter on Linux
@@ -46,5 +46,5 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ltreesitter-linux
+          name: ltreesitter.so
           path: ltreesitter.so
