@@ -59,9 +59,7 @@ jobs:
       - name: 'Build'
         uses: docker://fedora:latest
         with:
-          args: |
-            sudo dnf install make gcc lua lua-devel libtree-sitter libtree-sitter-devel -y
-            make ltreesitter.so
+          args: sh -c "sudo dnf install make gcc lua lua-devel libtree-sitter libtree-sitter-devel -y && make ltreesitter.so"
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
