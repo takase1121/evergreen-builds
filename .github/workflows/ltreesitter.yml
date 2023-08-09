@@ -10,6 +10,7 @@ jobs:
   ltreesitter-windows:
     name: ltreesitter on Windows
     runs-on: windows-latest
+    needs: ltreesitter-linux
     defaults:
       run:
         shell: msys2 {0}
@@ -37,12 +38,11 @@ jobs:
       - name: Create Release(s)
         env: { GITHUB_TOKEN: "${{ github.token }}" }
         shell: powershell
-        run: gh release delete -y builds || true; gh release create -p -t 'Builds' builds *.dll
+        run: gh release upload builds *.dll
 
   ltreesitter-linux:
     name: ltreesitter on Linux
     runs-on: ubuntu-latest
-    needs: ltreesitter-windows
     steps:
       - name: Install Dependencies
         run: sudo apt install gcc liblua5.4-0 liblua5.4-dev libtree-sitter0 libtree-sitter-dev
@@ -59,4 +59,4 @@ jobs:
           path: ltreesitter.so
       - name: Create Release(s)
         env: { GITHUB_TOKEN: "${{ github.token }}" }
-        run: gh release upload builds *.so
+        run: gh release delete -y builds || true; gh release create -p -t 'Builds' builds *.so
