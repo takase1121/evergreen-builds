@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env: { GITHUB_TOKEN: "${{ github.token }}" }
     steps: 
-      - run: gh release delete -y builds || true; gh release create -p -t 'Builds' builds *.dll
+      - run: gh release delete -y builds || true; gh release create -p -t 'Builds' builds
 
   ltreesitter-windows:
     name: ltreesitter on Windows
