@@ -49,16 +49,17 @@ jobs:
   ltreesitter-linux:
     name: ltreesitter on Linux
     runs-on: ubuntu-latest
+    container: fedora:latest
     steps:
       - name: Install Dependencies
-        run: sudo apt install gcc liblua5.4-0 liblua5.4-dev libtree-sitter0 libtree-sitter-dev
+        run: sudo dnf install make gcc lua lua-devel libtree-sitter libtree-sitter-devel
       - name: Checkout sources
         uses: actions/checkout@v3
         with:
           repository: 'takase1121/ltreesitter'
           ref: lite-xl-plugin-api
       - name: 'Build'
-        run: make ltreesitter.so
+        run: gcc -shared -o ltreesitter.so -O2 -fPIC -I./include -I/usr/include/lua5.4 csrc/*.c -llua -ltree-sitter -lm
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
