@@ -11,7 +11,9 @@ jobs:
     name: Make Releases
     runs-on: ubuntu-latest
     env: { GITHUB_TOKEN: "${{ github.token }}" }
-    steps: 
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
       - run: gh release delete -y builds || true; gh release create -p -t 'Builds' builds
 
   ltreesitter-windows:
