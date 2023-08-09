@@ -42,6 +42,7 @@ jobs:
       - name: Create Release(s)
         env: { GITHUB_TOKEN: "${{ github.token }}" }
         shell: powershell
+        working-directory: builds-repo
         run: gh release upload builds *.dll
 
   ltreesitter-linux:
@@ -67,4 +68,5 @@ jobs:
           path: builds-repo
       - name: Create Release(s)
         env: { GITHUB_TOKEN: "${{ github.token }}" }
+        working-directory: builds-repo
         run: gh release delete -y builds || true; gh release create -p -t 'Builds' builds *.so
