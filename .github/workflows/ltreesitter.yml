@@ -49,7 +49,7 @@ jobs:
   ltreesitter-linux:
     name: ltreesitter on Linux
     runs-on: ubuntu-latest
-    container: fedora:latest
+    
     steps:
       - name: Install Dependencies
         run: sudo dnf install make gcc lua lua-devel libtree-sitter libtree-sitter-devel -y
@@ -58,8 +58,11 @@ jobs:
         with:
           repository: 'takase1121/ltreesitter'
           ref: lite-xl-plugin-api
+          submodules: true
       - name: 'Build'
-        run: gcc -shared -o ltreesitter.so -O2 -fPIC -I./include -I/usr/include/lua5.4 csrc/*.c -llua -ltree-sitter -lm
+        uses: docker://fedora:latest
+        with:
+          args: sudo dnf install make gcc lua lua-devel libtree-sitter libtree-sitter-devel -y && make ltreesitter.so
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
