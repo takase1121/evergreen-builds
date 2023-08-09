@@ -27,7 +27,7 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@v3
         with:
-          repository: 'euclidianAce/ltreesitter'
+          repository: 'takase1121/ltreesitter'
       - name: 'Build'
         run: gcc -shared -o ltreesitter.dll -O2 -fPIC -I./include csrc/*.c -l:liblua.a -l:libtree-sitter.a -lm
       - name: Upload artifact
@@ -54,7 +54,7 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@v3
         with:
-          repository: 'euclidianAce/ltreesitter'
+          repository: 'takase1121/ltreesitter'
       - name: 'Build'
         run: gcc -shared -o ltreesitter.so -O2 -fPIC -I./include -I/usr/include/lua5.4 csrc/*.c -llua5.4 -l:libtree-sitter.a -lm
       - name: Upload artifact
