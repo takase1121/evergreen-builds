@@ -52,7 +52,7 @@ jobs:
     container: fedora:latest
     steps:
       - name: Install Dependencies
-        run: sudo dnf5 install make gcc lua lua-devel libtree-sitter libtree-sitter-devel -y
+        run: sudo dnf install make gcc lua lua-devel libtree-sitter libtree-sitter-devel -y
       - name: Checkout sources
         uses: actions/checkout@v3
         with:
