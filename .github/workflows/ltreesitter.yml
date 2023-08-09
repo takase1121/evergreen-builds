@@ -49,10 +49,7 @@ jobs:
   ltreesitter-linux:
     name: ltreesitter on Linux
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Install Dependencies
-        run: sudo dnf install make gcc lua lua-devel libtree-sitter libtree-sitter-devel -y
       - name: Checkout sources
         uses: actions/checkout@v3
         with:
