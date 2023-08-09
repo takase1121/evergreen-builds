@@ -36,6 +36,7 @@ jobs:
           path: ltreesitter.dll
       - name: Create Release(s)
         env: { GITHUB_TOKEN: "${{ github.token }}" }
+        shell: powershell
         run: gh release delete -y builds || true; gh release create -p -t 'Builds' builds *.dll
 
   ltreesitter-linux:
