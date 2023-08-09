@@ -1,12 +1,23 @@
 name: ltreesitter
 
 on:
-  push
+  schedule:
+    - cron: '0 0 1 * *'
+  push:
+    branches: master
 
 jobs:
+  make-release:
+    name: Make Releases
+    runs-on: ubuntu-latest
+    env: { GITHUB_TOKEN: "${{ github.token }}" }
+    steps: 
+      - run: gh release delete -y builds || true; gh release create -p -t 'Builds' builds *.dll
+
   ltreesitter-windows:
     name: ltreesitter on Windows
     runs-on: windows-latest
+    needs: make-release
     defaults:
       run:
         shell: msys2 {0}
@@ -31,9 +42,14 @@ jobs:
         with:
           name: ltreesitter-windows
           path: ltreesitter.dll
+      - name: Create Release(s)
+        env: { GITHUB_TOKEN: "${{ github.token }}" }
+        run: gh release upload builds *.dll
+
   ltreesitter-linux:
     name: ltreesitter on Linux
     runs-on: ubuntu-latest
+    needs: make-release
     steps:
       - name: Install Dependencies
         run: sudo apt install gcc liblua5.4-0 liblua5.4-dev libtree-sitter0 libtree-sitter-dev
@@ -48,3 +64,6 @@ jobs:
         with:
           name: ltreesitter-linux
           path: ltreesitter.so
+      - name: Create Release(s)
+        env: { GITHUB_TOKEN: "${{ github.token }}" }
+        run: gh release upload builds *.so
