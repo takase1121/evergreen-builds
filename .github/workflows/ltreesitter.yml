@@ -2,7 +2,7 @@ name: ltreesitter
 
 on:
   schedule:
-    - cron: '0 0 1 * *'
+    - cron: '0 0 1/14 * *'
   push:
     branches: master
 
@@ -43,7 +43,7 @@ jobs:
         env: { GITHUB_TOKEN: "${{ github.token }}" }
         shell: powershell
         working-directory: builds-repo
-        run: gh release upload builds *.dll
+        run: gh release upload builds ../*.dll
 
   ltreesitter-linux:
     name: ltreesitter on Linux
@@ -69,4 +69,4 @@ jobs:
       - name: Create Release(s)
         env: { GITHUB_TOKEN: "${{ github.token }}" }
         working-directory: builds-repo
-        run: gh release delete -y builds || true; gh release create -p -t 'Builds' builds *.so
+        run: gh release delete -y builds || true; gh release create -p -t 'Builds' builds ../*.so
