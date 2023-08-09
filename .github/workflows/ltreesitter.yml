@@ -35,10 +35,14 @@ jobs:
         with:
           name: ltreesitter-windows
           path: ltreesitter.dll
+      - name: Checkout builds repo
+        uses: actions/checkout@v3
+        with:
+          path: builds-repo
       - name: Create Release(s)
         env: { GITHUB_TOKEN: "${{ github.token }}" }
         shell: powershell
-        run: gh release upload builds *.dll
+        run: gh release upload builds builds-repo/*.dll
 
   ltreesitter-linux:
     name: ltreesitter on Linux
@@ -57,6 +61,10 @@ jobs:
         with:
           name: ltreesitter-linux
           path: ltreesitter.so
+      - name: Checkout builds repo
+        uses: actions/checkout@v3
+        with:
+          path: builds-repo
       - name: Create Release(s)
         env: { GITHUB_TOKEN: "${{ github.token }}" }
-        run: gh release delete -y builds || true; gh release create -p -t 'Builds' builds *.so
+        run: gh release delete -y builds || true; gh release create -p -t 'Builds' builds builds-repo/*.so
