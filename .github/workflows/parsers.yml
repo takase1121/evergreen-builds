@@ -38,6 +38,7 @@ jobs:
           repository: ${{ matrix.parser }}
       - name: Build
         run: |
+          chmod +x ./fake-gyp
           ./fake-gyp ${{ steps.split.outputs.parser }} > Makefile
           make
       - uses: actions/upload-artifact@v3
