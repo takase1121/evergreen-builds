@@ -4,6 +4,14 @@ on:
   push
 
 jobs:
+  create-release:
+    name: Make release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v3
+      - run: gh release delete -y parsers || true; gh release create -p -t 'Treesitter Parsers' builds
+
   linux-parsers:
     name: Compile Linux parsers
     runs-on: ubuntu-latest
@@ -48,6 +56,8 @@ jobs:
           name: ${{ steps.split.outputs.parser }}-linux-x86_64
           path: |
             ${{ steps.split.outputs.parser }}/parser.so
+      - name: Upload to release
+        run: gh release upload parsers ${{ steps.split.outputs.parser }}/parser.so
 
   windows-parsers:
     name: Compile Windows parsers
@@ -98,3 +108,5 @@ jobs:
           name: ${{ steps.split.outputs.parser }}-windows-x86_64
           path: |
             ${{ steps.split.outputs.parser }}/parser.dll
+      - name: Upload to release
+        run: gh release upload parsers ${{ steps.split.outputs.parser }}/parser.dll
