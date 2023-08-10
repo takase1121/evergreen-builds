@@ -31,7 +31,9 @@ jobs:
           ref: lite-xl-plugin-api
           submodules: true
       - name: 'Build'
-        run: CFLAGS="-I./include -Wall -Wextra -Werror -Og -ggdb -std=c99 -fPIC" make ltreesitter.so && mv ltreesitter.so ltreesitter.dll
+        run: make ltreesitter.so && mv ltreesitter.so ltreesitter.dll
+        env:
+          CFLAGS: -I./include -Wall -Wextra -Werror -Og -ggdb -std=c99 -fPIC
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
