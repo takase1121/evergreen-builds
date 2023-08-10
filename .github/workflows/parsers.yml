@@ -4,7 +4,49 @@ on:
   push
 
 jobs:
-  build:
+  linux-parsers:
+    name: Compile Linux parsers
+    runs-on: ubuntu-latest
+    container: fedora:latest
+    continue-on-error: true
+    strategy:
+      matrix:
+        parser:
+          - tree-sitter/tree-sitter-c
+          - tree-sitter/tree-sitter-cpp
+          - the-mikedavis/tree-sitter-diff
+          - tree-sitter/tree-sitter-go
+          - camdencheek/tree-sitter-go-mod
+          - MunifTanjim/tree-sitter-lua
+          - tree-sitter/tree-sitter-rust
+    steps:
+      - name: "Install dependencies"
+        run: |
+          sudo dnf install gcc make wget libtree-sitter libtree-sitter-devel
+          wget -O /usr/bin/yq "https://github.com/mikefarah/yq/releases/download/v4.30.8/yq_windows_amd64.exe"
+      - name: Get parser name
+        env:
+          PARSER: ${{ matrix.parser }}
+        id: split
+        run: echo "parser=${PARSER##*/}" >> $GITHUB_OUTPUT
+      - name: Checkout sources
+        uses: actions/checkout@v3
+      - name: Checkout parser sources
+        uses: actions/checkout@v3
+        with:
+          path: ${{ steps.split.outputs.parser }}
+          repository: ${{ matrix.parser }}
+      - name: Build
+        run: |
+          ./fake-gyp ${{ steps.split.outputs.parser }} > Makefile
+          make
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ steps.split.outputs.parser }}-linux-x86_64
+          path: |
+            ${{ steps.split.outputs.parser }}/parser.so
+
+  windows-parsers:
     name: Compile Windows parsers
     runs-on: windows-latest
     continue-on-error: true
