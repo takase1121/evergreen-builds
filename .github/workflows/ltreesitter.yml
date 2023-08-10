@@ -10,7 +10,6 @@ jobs:
   ltreesitter-windows:
     name: ltreesitter on Windows
     runs-on: windows-latest
-    needs: ltreesitter-linux
     defaults:
       run:
         shell: msys2 {0}
@@ -41,10 +40,12 @@ jobs:
         with:
           path: builds-repo
       - name: Create Release(s)
-        env: { GITHUB_TOKEN: "${{ github.token }}" }
-        shell: powershell
-        working-directory: builds-repo
-        run: gh release upload builds ../*.dll
+        uses: ncipollo/release-action@v1
+        with:
+          name: 'Builds'
+          allowUpdates: true
+          generateReleaseNotes: true
+          artifacts: ltreesitter.dll
 
   ltreesitter-linux:
     name: ltreesitter on Linux
@@ -70,6 +71,9 @@ jobs:
         with:
           path: builds-repo
       - name: Create Release(s)
-        env: { GITHUB_TOKEN: "${{ github.token }}" }
-        working-directory: builds-repo
-        run: gh release delete -y builds || true; gh release create -p -t 'Builds' builds ../*.so
+        uses: ncipollo/release-action@v1
+        with:
+          name: 'Builds'
+          allowUpdates: true
+          generateReleaseNotes: true
+          artifacts: ltreesitter.so
