@@ -11,7 +11,8 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@v3
       - run: gh release delete -y parsers || true; gh release create -p -t 'Treesitter Parsers' builds
-
+        env: { GITHUB_TOKEN: "${{ github.token }}" }
+  
   linux-parsers:
     name: Compile Linux parsers
     runs-on: ubuntu-latest
@@ -58,6 +59,7 @@ jobs:
             ${{ steps.split.outputs.parser }}/parser.so
       - name: Upload to release
         run: gh release upload parsers ${{ steps.split.outputs.parser }}/parser.so
+        env: { GITHUB_TOKEN: "${{ github.token }}" }
 
   windows-parsers:
     name: Compile Windows parsers
@@ -110,3 +112,4 @@ jobs:
             ${{ steps.split.outputs.parser }}/parser.dll
       - name: Upload to release
         run: gh release upload parsers ${{ steps.split.outputs.parser }}/parser.dll
+        env: { GITHUB_TOKEN: "${{ github.token }}" }
