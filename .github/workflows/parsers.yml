@@ -58,7 +58,9 @@ jobs:
           path: |
             ${{ steps.split.outputs.parser }}/parser.so
       - name: Upload to release
-        run: gh release upload parsers ${{ steps.split.outputs.parser }}/parser.so
+        run: |
+          mv ${{ steps.split.outputs.parser }}/parser.so ${{ steps.split.outputs.parser }}.so
+          gh release upload parsers ${{ steps.split.outputs.parser }}.so
         env: { GITHUB_TOKEN: "${{ github.token }}" }
 
   windows-parsers:
@@ -111,6 +113,8 @@ jobs:
           path: |
             ${{ steps.split.outputs.parser }}/parser.dll
       - name: Upload to release
-        run: gh release upload parsers ${{ steps.split.outputs.parser }}/parser.dll
+        run: |
+          mv ${{ steps.split.outputs.parser }}/parser.dll ${{ steps.split.outputs.parser }}.dll
+          gh release upload parsers ${{ steps.split.outputs.parser }}.dll
         shell: powershell
         env: { GITHUB_TOKEN: "${{ github.token }}" }
