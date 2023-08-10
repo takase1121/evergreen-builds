@@ -29,8 +29,9 @@ jobs:
         with:
           repository: 'takase1121/ltreesitter'
           ref: lite-xl-plugin-api
+          submodules: true
       - name: 'Build'
-        run: gcc -shared -o ltreesitter.dll -O2 -fPIC -I./include csrc/*.c -l:liblua.a -l:libtree-sitter.a -lm
+        run: make ltreesitter.so && mv ltreesitter.so ltreesitter.dll
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
