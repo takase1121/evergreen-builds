@@ -43,6 +43,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           name: 'Builds'
+          commit: ${{ github.sha }}
           allowUpdates: true
           generateReleaseNotes: true
           artifacts: ltreesitter.dll
@@ -74,6 +75,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           name: 'Builds'
+          commit:  ${{ github.sha }}
           allowUpdates: true
           generateReleaseNotes: true
           artifacts: ltreesitter.so
