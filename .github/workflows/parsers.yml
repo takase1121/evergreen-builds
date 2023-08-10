@@ -23,7 +23,7 @@ jobs:
       - name: "Install dependencies"
         run: |
           sudo dnf install gcc make wget libtree-sitter libtree-sitter-devel -y
-          wget -O /usr/bin/yq "https://github.com/mikefarah/yq/releases/download/v4.30.8/yq_windows_amd64.exe"
+          wget -O /usr/bin/yq "https://github.com/mikefarah/yq/releases/download/v4.30.8/yq_linux_amd64.exe"
           chmod +x /usr/bin/yq
       - name: Get parser name
         env:
