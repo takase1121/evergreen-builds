@@ -1,10 +1,16 @@
 name: ltreesitter
 
 on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: ltreesitter release tag
+        default: 'ltreesitter'
+        type: string
   schedule:
     - cron: '0 0 1/14 * *'
   push:
-    branches: master
+    branches: [master]
 
 jobs:
   create-release:
