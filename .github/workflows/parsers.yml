@@ -59,7 +59,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           name: 'Treesitter Parsers'
-          tag: parsers
+          tag: ${{ inputs.tag }}
           commit: master
           allowUpdates: true
           artifacts: "*.so"
@@ -118,7 +118,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           name: 'Treesitter Parsers'
-          tag: parsers
+          tag: ${{ inputs.tag }}
           commit: master
           allowUpdates: true
           artifacts: "*.dll"
