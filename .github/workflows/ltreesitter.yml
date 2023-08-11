@@ -1,10 +1,16 @@
 name: ltreesitter
 
 on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: ltreesitter release tag
+        default: 'ltreesitter'
+        type: string
   schedule:
     - cron: '0 0 1/14 * *'
   push:
-    branches: master
+    branches: [master]
 
 jobs:
   create-release:
@@ -13,7 +19,7 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v3
-      - run: gh release delete -y ltreesitter || true; gh release create -p -t 'ltreesitter' ltreesitter
+      - run: gh release delete -y ${{ inputs.tag }} || true; gh release create -p -t 'ltreesitter' ${{ inputs.tag }}
         env: { GITHUB_TOKEN: "${{ github.token }}" }
 
   ltreesitter-windows:
@@ -52,7 +58,7 @@ jobs:
         env: { GITHUB_TOKEN: "${{ github.token }}" }
         shell: powershell
         working-directory: builds-repo
-        run: gh release upload ltreesitter ../ltreesitter.dll
+        run: gh release upload ${{ inputs.tag }} ../ltreesitter.dll
 
   ltreesitter-linux:
     name: ltreesitter on Linux
@@ -80,4 +86,4 @@ jobs:
       - name: Create Release(s)
         env: { GITHUB_TOKEN: "${{ github.token }}" }
         working-directory: builds-repo
-        run: gh release upload ltreesitter ../ltreesitter.so
+        run: gh release upload ${{ inputs.tag }} ../ltreesitter.so

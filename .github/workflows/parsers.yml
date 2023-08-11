@@ -1,7 +1,14 @@
 name: Treesitter Parsers
 
 on:
-  push
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Parsers release tag
+        default: 'parsers'
+        type: string
+  push:
+    branches: [master]
 
 jobs:
   create-release:
@@ -10,9 +17,9 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v3
-      - run: gh release delete -y parsers || true; gh release create -p -t 'Treesitter Parsers' parsers
+      - run: gh release delete -y ${{ inputs.tag }} || true; gh release create -p -t 'Treesitter Parsers' ${{ inputs.tag }}
         env: { GITHUB_TOKEN: "${{ github.token }}" }
-  
+
   linux-parsers:
     name: Compile Linux parsers
     runs-on: ubuntu-latest
@@ -60,7 +67,7 @@ jobs:
       - name: Upload to release
         run: |
           mv ${{ steps.split.outputs.parser }}/parser.so ${{ steps.split.outputs.parser }}.so
-          gh release upload parsers ${{ steps.split.outputs.parser }}.so
+          gh release upload ${{ inputs.tag }} ${{ steps.split.outputs.parser }}.so
         env: { GITHUB_TOKEN: "${{ github.token }}" }
 
   windows-parsers:
@@ -115,6 +122,6 @@ jobs:
       - name: Upload to release
         run: |
           mv ${{ steps.split.outputs.parser }}/parser.dll ${{ steps.split.outputs.parser }}.dll
-          gh release upload parsers ${{ steps.split.outputs.parser }}.dll
+          gh release upload ${{ inputs.tag }} ${{ steps.split.outputs.parser }}.dll
         shell: powershell
         env: { GITHUB_TOKEN: "${{ github.token }}" }
