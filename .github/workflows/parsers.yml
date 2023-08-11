@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v3
-      - run: gh release delete -y ${{ inputs.tag }} || true; gh release create -p -t 'Treesitter Parsers' {{ inputs.tag }}
+      - run: gh release delete -y ${{ inputs.tag }} || true; gh release create -p -t 'Treesitter Parsers' ${{ inputs.tag }}
         env: { GITHUB_TOKEN: "${{ github.token }}" }
 
   linux-parsers:
