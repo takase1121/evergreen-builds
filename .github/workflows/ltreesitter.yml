@@ -13,6 +13,15 @@ on:
     branches: [master]
 
 jobs:
+  create-release:
+    name: Make release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v3
+      - run: gh release delete -y ${{ inputs.tag }} || true; gh release create -p -t 'ltreesitter' ${{ inputs.tag }}
+        env: { GITHUB_TOKEN: "${{ github.token }}" }
+
   ltreesitter-windows:
     name: ltreesitter on Windows
     runs-on: windows-latest
@@ -46,13 +55,10 @@ jobs:
         with:
           path: builds-repo
       - name: Create Release(s)
-        uses: ncipollo/release-action@v1
-        with:
-          name: 'ltreesitter'
-          tag: ${{ inputs.tag }}
-          commit: master
-          allowUpdates: true
-          artifacts: ltreesitter.dll
+        env: { GITHUB_TOKEN: "${{ github.token }}" }
+        shell: powershell
+        working-directory: builds-repo
+        run: gh release upload ${{ inputs.tag }} ../ltreesitter.dll
 
   ltreesitter-linux:
     name: ltreesitter on Linux
@@ -73,11 +79,11 @@ jobs:
         with:
           name: ltreesitter-linux
           path: ltreesitter.so
-      - name: Create Release(s)
-        uses: ncipollo/release-action@v1
+      - name: Checkout builds repo
+        uses: actions/checkout@v3
         with:
-          name: 'ltreesitter'
-          tag: ${{ inputs.tag }}
-          commit: master
-          allowUpdates: true
-          artifacts: ltreesitter.so
+          path: builds-repo
+      - name: Create Release(s)
+        env: { GITHUB_TOKEN: "${{ github.token }}" }
+        working-directory: builds-repo
+        run: gh release upload ${{ inputs.tag }} ../ltreesitter.so
