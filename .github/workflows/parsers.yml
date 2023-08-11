@@ -1,7 +1,14 @@
 name: Treesitter Parsers
 
 on:
-  push
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Parsers release tag
+        default: 'parsers'
+        type: string
+  push:
+    branches: [master]
 
 jobs:
   linux-parsers:
