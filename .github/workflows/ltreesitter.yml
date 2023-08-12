@@ -26,7 +26,6 @@ jobs:
           install: >-
             base-devel
             git
-            mingw-w64-x86_64-tree-sitter
             mingw-w64-x86_64-gcc
       - name: Checkout sources
         uses: actions/checkout@v3
