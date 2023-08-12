@@ -88,7 +88,6 @@ jobs:
             git
             wget
             make
-            mingw-w64-x86_64-tree-sitter
             mingw-w64-x86_64-gcc
       - name: Install yq
         run: wget -O /usr/bin/yq "https://github.com/mikefarah/yq/releases/download/v4.30.8/yq_windows_amd64.exe"
