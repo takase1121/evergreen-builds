@@ -85,6 +85,8 @@ jobs:
         run: |
           ./setup.sh
           make -j$(nproc)
+        env:
+          SOEXT: dll
       - uses: actions/upload-artifact@v3
         with:
           name: parsers-windows-x86_64
