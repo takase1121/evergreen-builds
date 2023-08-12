@@ -67,7 +67,6 @@ jobs:
   windows-parsers:
     name: Compile Windows parsers
     runs-on: windows-latest
-    continue-on-error: true
     defaults:
       run:
         shell: msys2 {0}
