@@ -14,17 +14,14 @@ jobs:
   linux-parsers:
     name: Compile Linux parsers
     runs-on: ubuntu-latest
+    container: ghcr.io/lite-xl/lite-xl-build-box:latest
     steps:
       - name: Checkout sources
         uses: actions/checkout@v3
       - name: Build
-        uses: docker://fedora:latest
-        with:
-          args: >
-            sh -c "
-            sudo dnf install git gcc make python -y &&
-            ./setup.sh &&
-            make -j$(nproc)"
+        run: |
+          ./setup.sh
+          make -j$(nproc)
       - uses: actions/upload-artifact@v3
         with:
           name: parsers-linux-x86_64
