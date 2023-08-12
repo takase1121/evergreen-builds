@@ -22,7 +22,7 @@ jobs:
         with:
           args: >
             sh -c "
-            sudo dnf install gcc make python -y &&
+            sudo dnf install git gcc make python -y &&
             ./setup.sh &&
             make -j$(nproc)"
       - uses: actions/upload-artifact@v3
