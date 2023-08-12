@@ -14,47 +14,21 @@ jobs:
   linux-parsers:
     name: Compile Linux parsers
     runs-on: ubuntu-latest
-    continue-on-error: true
-    strategy:
-      matrix:
-        parser:
-          - tree-sitter/tree-sitter-c
-          - tree-sitter/tree-sitter-cpp
-          - the-mikedavis/tree-sitter-diff
-          - tree-sitter/tree-sitter-go
-          - camdencheek/tree-sitter-go-mod
-          - MunifTanjim/tree-sitter-lua
-          - tree-sitter/tree-sitter-rust
     steps:
-      - name: Get parser name
-        env:
-          PARSER: ${{ matrix.parser }}
-        id: split
-        run: echo "parser=${PARSER##*/}" >> $GITHUB_OUTPUT
       - name: Checkout sources
         uses: actions/checkout@v3
-      - name: Checkout parser sources
-        uses: actions/checkout@v3
-        with:
-          path: ${{ steps.split.outputs.parser }}
-          repository: ${{ matrix.parser }}
       - name: Build
         uses: docker://fedora:latest
         with:
           args: >
             sh -c "
-            sudo dnf install gcc make wget libtree-sitter libtree-sitter-devel -y &&
-            wget -O /usr/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 &&
-            chmod +x /usr/bin/yq &&
-            chmod +x ./fake-gyp &&
-            ./fake-gyp ${{ steps.split.outputs.parser }} > Makefile &&
-            make &&
-            mv ${{ steps.split.outputs.parser }}/parser.dll ${{ steps.split.outputs.parser }}.so"
+            sudo dnf install gcc make python -y &&
+            ./setup.sh &&
+            make -j$(nproc)"
       - uses: actions/upload-artifact@v3
         with:
-          name: ${{ steps.split.outputs.parser }}-linux-x86_64
-          path: |
-            ${{ steps.split.outputs.parser }}.so
+          name: parsers-linux-x86_64
+          path: "*.so"
       - name: Upload to release
         uses: ncipollo/release-action@v1
         with:
