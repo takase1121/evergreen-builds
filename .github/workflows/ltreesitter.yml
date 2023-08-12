@@ -41,10 +41,6 @@ jobs:
         with:
           name: ltreesitter-windows
           path: ltreesitter.dll
-      - name: Checkout builds repo
-        uses: actions/checkout@v3
-        with:
-          path: builds-repo
       - name: Create Release(s)
         uses: ncipollo/release-action@v1
         with:
