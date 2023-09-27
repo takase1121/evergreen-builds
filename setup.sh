@@ -2,7 +2,7 @@
 
 REPOS="https://github.com/tree-sitter/tree-sitter-c
 https://github.com/tree-sitter/tree-sitter-cpp
-https://github.com/CyberShadow/tree-sitter-d
+https://github.com/takase1121/tree-sitter-d
 https://github.com/the-mikedavis/tree-sitter-diff
 https://github.com/tree-sitter/tree-sitter-go
 https://github.com/camdencheek/tree-sitter-go-mod
