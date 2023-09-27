@@ -54,7 +54,7 @@ jobs:
       - name: Build
         run: |
           ./setup.sh
-          make -j$(nproc)
+          LDFLAGS=-static-libstdc++ make -j$(nproc)
         env:
           SOEXT: dll
       - uses: actions/upload-artifact@v3
