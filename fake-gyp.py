@@ -29,7 +29,7 @@ def generate_target_rules(dir, output=[]):
 
     # generate dynamic library rule
     output.append(f"{dir.stem}.$(SOEXT): {' '.join(objs)}")
-    output.append(f"\t{'$(CXX)' if has_cpp else '$(CC)'} -shared -o $@ $(LDFLAGS) {'-static' if has_cpp else ''} $^")
+    output.append(f"\t{'$(CXX)' if has_cpp else '$(CC)'} -shared -o $@ $(LDFLAGS) $^")
     output.append(f"\t$(STRIP) $@")
 
     for src in srcs:
